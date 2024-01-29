@@ -88,4 +88,25 @@ class UserController extends Controller
 
         return json_encode($result);
     }
+    public function getUser(Request $request){
+        $users=User::all();
+        return view('user',compact('users'));
+    }
+
+    public function users_status_update(Request $request)
+    {
+        $id = $request->id;
+        $status = $request->status;
+        try {
+            $user = User::find($id);
+            $user->status = $status;
+            if ($user->save()) {
+                return response()->json(['success' => 'User status change successfully.']);
+            } else {
+                return response()->json(['failed' => 'User status change failed.']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['failed' => $e]);
+        }
+    }
 }

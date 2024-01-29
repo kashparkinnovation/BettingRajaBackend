@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('app');
 });
-// Route::get('/getBanner',[BannerController::class,'getBanner']);
+Route::get('/getBanner',[BannerController::class,'getBanner']);
+Route::post('/insert_Banner',[BannerController::class,'insert_Banner']);
+
+Route::get('/getUser',[UserController::class,'getUser']);
+Route::get('/users_status_update',[UserController::class,'users_status_update']);

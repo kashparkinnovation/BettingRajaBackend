@@ -41,7 +41,10 @@
                         class="nav-drop-icon material-icons">keyboard_arrow_right</i></a>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="{{ url('/users') }}">Users</a></li>
+                        <li><a href="{{ url('/getUser') }}">User</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="{{ url('/getBanner') }}">Banner</a></li>
                     </ul>
                 </div>
             </li>
@@ -52,7 +55,7 @@
 
                     <ul>
                         <ul>
-                            <li><a href="{{ url('/banner') }}">Banner</a></li>
+                            <li><a href="{{ url('/softwares') }}">Softwares</a></li>
                         </ul>
                         <ul>
                             <li><a href="{{ url('/software_sale') }}">Software Sales</a></li>
