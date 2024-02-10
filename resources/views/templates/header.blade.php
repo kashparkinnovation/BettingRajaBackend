@@ -4,13 +4,13 @@
 <head>
 
     <!-- Title -->
-    <title>Alpha | Responsive Admin Dashboard Template</title>
+    <title>Betting Raja</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta charset="UTF-8">
-    <meta name="description" content="Responsive Admin Dashboard Template" />
-    <meta name="keywords" content="admin,dashboard" />
-    <meta name="author" content="Steelcoders" />
+    <meta name="description" content="Betting Raja" />
+    <meta name="keywords" content="Betting Raja" />
+    <meta name="author" content="Betting Raja" />
 
     <!-- Styles -->
     <link type="text/css" rel="stylesheet" href="{{ asset('plugins/materialize/css/materialize.min.css') }}" />

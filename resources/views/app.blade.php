@@ -7,8 +7,7 @@
     <div class="mn-content fixed-sidebar">
 
         @include('templates.topbar')
-        @include('templates.searchresult')
-
+     
 
         @include('templates.sidebar')
 

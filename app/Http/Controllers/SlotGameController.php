@@ -2,17 +2,38 @@
 
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 class SlotGameController
 {
+    public function slot_game()
+    {
+        $data = DB::table('slot_games')->where('id', '=', 1)->get()[0];
+        $orders = DB::table('slot_game_orders')->join('users', 'users.id', '=', 'slot_game_orders.user_id')->select('slot_game_orders.*', 'users.name', 'users.mobile')->orderBy('slot_game_orders.id','desc')->limit(1000)->get();
+        return view('slotgame', compact('data'), compact('orders'));
+    }
+    public function update_slot_game(Request $request)
+    {
+        $single_number_chance = $request->get('one_chance');
+        $double_number_chance = $request->get('two_chance');
+        $jackpot_number_chance = $request->get('three_chance');
+        $loosing_number_chance = $request->get('lose_chance');
+        $data = ['single_number_chance' => $single_number_chance, 'double_number_chance' => $double_number_chance, 'jackpot_number_chance' => $jackpot_number_chance, 'loosing_number_chance' => $loosing_number_chance];
+        DB::table('slot_games')->where('id', 1)->update($data);
+        return redirect('/slot_game');
+    }
+
     public function spinWheels()
     {
+        $data = DB::table('slot_games')->where('id', '=', 1)->get()[0];
         // Define probabilities
         $probabilities = [
-            'one_wheel' => 0.5,
-            'two_wheels' => 0.06,
-            'three_wheels' => 0.04,
-            'no_wheels' => 0.4,
+            'one_wheel' => $data->single_number_chance/100,
+            'two_wheels' => $data->double_number_chance/100,
+            'three_wheels' => $data->jackpot_number_chance/100,
+            'no_wheels' => $data->loosing_number_chance/100,
         ];
 
         // Generate a random number to determine the outcome

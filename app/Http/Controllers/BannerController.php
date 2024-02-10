@@ -27,4 +27,9 @@ class BannerController extends Controller
         $newBanner->save();
         return redirect('/getBanner');
     }
+    public function delete_Banner(Request $request){
+        $id= $request->get('id');
+        Banner::destroy($id);
+        return redirect('/getBanner');
+    }
 }

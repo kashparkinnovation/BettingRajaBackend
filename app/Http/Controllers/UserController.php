@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 
 class UserController extends Controller
 {
@@ -29,7 +31,10 @@ class UserController extends Controller
                 $result['inserted_id'] = 0;
             }
         } catch (\Exception $e) {
-            return 'User Insertion Failed!';
+            $result['status'] = 'Failed';
+            $result['status_code'] = '300';
+            $result['message'] = 'User Insertion Failed!';
+            $result['inserted_id'] = 0;
         }
         return json_encode($result);
     }
@@ -64,33 +69,46 @@ class UserController extends Controller
         $password = $request->password;
 
         try {
-            $user = User::where('mobile', '=', $mobile)->get();
-            if (count($user) > 0) {
-                $pass = User::where('password', '=', $password)->get();
-                if (count($pass) > 0) {
+            $user = User::where('password', '=', $password)->where('mobile', '=', $mobile)->get();
+            if (count($user) == 1) {
+                if ($user[0]->status == 'Active') {
                     $result['status'] = 'OK';
                     $result['status_code'] = '200';
                     $result['message'] = 'Authorised User';
+                    $result['user_id'] = $user[0]->id;
                 } else {
                     $result['status'] = 'Failed';
                     $result['status_code'] = '300';
-                    $result['message'] = 'Password is not correct';
+                    $result['message'] = 'Account Inactive';
+                    $result['user_id'] = 0;
                 }
             } else {
                 $result['status'] = 'Failed';
                 $result['status_code'] = '301';
-                $result['message'] = 'User Not Exist';
+                $result['message'] = 'Invalid Credentials';
+                $result['user_id'] = 0;
             }
         } catch (\Exception $e) {
 
-            return 'Invalid Password';
+            $result['status'] = 'Failed';
+            $result['status_code'] = '301';
+            $result['message'] = 'Invalid Credentials';
+            $result['user_id'] = 0;
         }
 
         return json_encode($result);
     }
-    public function getUser(Request $request){
-        $users=User::all();
-        return view('user',compact('users'));
+    public function getUser(Request $request)
+    {
+        $users = User::all();
+        return view('user', compact('users'));
+    }
+    public function getUserById(Request $request)
+    {
+        $id = $request->get('id');
+        $user = DB::table('users')->select('name', 'mobile', 'id', 'status')->where('id', '=', $id)->get()[0];
+
+        return json_encode($user);
     }
 
     public function users_status_update(Request $request)

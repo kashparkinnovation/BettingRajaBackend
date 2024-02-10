@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SlotGameController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DiceGameController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +19,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('app');
+Route::get('/', [LoginController::class, 'checkAuth']);
+Route::get('/login', function () {
+    return view('login');
 });
-Route::get('/getBanner',[BannerController::class,'getBanner']);
-Route::post('/insert_Banner',[BannerController::class,'insert_Banner']);
+Route::post('/loginf', [LoginController::class, 'loginfunc']);
 
-Route::get('/getUser',[UserController::class,'getUser']);
-Route::get('/users_status_update',[UserController::class,'users_status_update']);
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/logout', [LoginController::class, 'logout']);
+    Route::get('/getBanner', [BannerController::class, 'getBanner']);
+    Route::post('/insert_Banner', [BannerController::class, 'insert_Banner']);
+    Route::get('/delete_Banner', [BannerController::class, 'delete_Banner']);
+    Route::get('/getUser', [UserController::class, 'getUser']);
+    Route::get('/users_status_update', [UserController::class, 'users_status_update']);
+    Route::get('/slot_game', [SlotGameController::class, 'slot_game']);
+    Route::get('/dice_game', [DiceGameController::class, 'dice_game']);
+    Route::post('/update_slot_game', [SlotGameController::class, 'update_slot_game']);
+});

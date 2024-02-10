@@ -3,16 +3,16 @@
     <main class="mn-inner">
         <div class="row">
             <div class="col s12">
-                <div class="page-title">launch_software List</div>
+                <div class="page-title">Banners List</div>
             </div>
             <div class="col s12 m12 l12">
                 <div class="card">
                     <div class="card-content">
-                        <span class="card-title">launch_software</span>
+                        <span class="card-title">Banners</span>
                         <!-- Modal Structure -->
                         <a class="waves-effect waves-grey btn primary right modal-trigger" href="#addnewlaunchsoftware">Add
                             New
-                            Software</a>
+                            Banner</a>
                         <div id="addnewlaunchsoftware" class="modal"
                             style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
                             <form action="{{ url('/insert_Banner') }}" method="post" class="form"
@@ -63,6 +63,9 @@
                                         <td>
                                             <img class="rounded avatar" style="max-height: 40px;"
                                                 src="{{ asset('/' . $data->image) }}" alt="im">
+                                        </td>
+                                        <td><a class="btn btn-danger" href="{{url('/delete_Banner?id='.$data->id)}}">Delete</a>
+
                                         </td>
                                     </tr>
                                 @endforeach
