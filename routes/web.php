@@ -37,4 +37,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/slot_game', [SlotGameController::class, 'slot_game']);
     Route::get('/dice_game', [DiceGameController::class, 'dice_game']);
     Route::post('/update_slot_game', [SlotGameController::class, 'update_slot_game']);
+    
+    Route::get('/withdrawReq', [UserController::class, 'withdrawReq']);
+    Route::get('/cancelWithdrawReq', [UserController::class, 'cancelWithdrawReq']);
+    
+    Route::get('/UpdateWithdrawReq', [UserController::class, 'UpdateWithdrawReq']);
+   
+    Route::get('/rechargeReq', [UserController::class, 'rechargeReq']);
+    Route::get('/cancelrechargeReq', [UserController::class, 'cancelrechargeReq']);
+    
+    Route::get('/UpdaterechargeReq', [UserController::class, 'UpdaterechargeReq']);
+    
+    
 });

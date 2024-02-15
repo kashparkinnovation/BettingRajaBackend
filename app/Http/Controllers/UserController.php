@@ -199,4 +199,53 @@ class UserController extends Controller
         }
         return json_encode($result);
     }
+    public function withdrawReq(Request $request)
+    {
+        $data = DB::table('withdrawls')->join('users', 'users.id', '=' ,'withdrawls.user_id')->join('user_banks', 'user_banks.id','withdrawls.bank_id')->select('withdrawls.*', 'users.name', 'users.mobile','user_banks.name as bank_name', 'user_banks.ifsc', 'user_banks.ac_no', 'user_banks.ac_holder' )->orderBy('id', 'Desc')->get();
+
+        return view('withdrawReq', compact('data'));
+    }
+    public function UpdateWithdrawReq(Request $request){
+        $id = $request->get('id');
+        $data = DB::table('withdrawls')->where('id', $id)->first();
+        $amount = $data->amount;
+        $user_id = $data->user_id;
+
+        $trans_credit_data = ["user_id" => $user_id, "type" => "Debit", "amount" => $amount, "game_type" => "Withdraw", "session_id" => $id];
+        DB::table('user_transactions')->insert($trans_credit_data);
+        $updateData = ['status'=>'Success'];
+        DB::table('withdrawls')->where('id', $id)->update($updateData);
+        return redirect('/withdrawReq');
+    }
+    public function cancelWithdrawReq(Request $request){
+        $id = $request->get('id');
+         $updateData = ['status'=>'Failed'];
+        DB::table('withdrawls')->where('id', $id)->update($updateData);
+        return redirect('/withdrawReq');
+    }
+
+    public function rechargeReq(Request $request)
+    {
+        $data = DB::table('recharges')->join('users', 'users.id', '=' ,'recharges.user_id')->select('recharges.*', 'users.name', 'users.mobile')->orderBy('id', 'Desc')->get();
+
+        return view('rechargeReq', compact('data'));
+    }
+    public function UpdaterechargeReq(Request $request){
+        $id = $request->get('id');
+        $data = DB::table('recharges')->where('id', $id)->first();
+        $amount = $data->amount;
+        $user_id = $data->user_id;
+
+        $trans_credit_data = ["user_id" => $user_id, "type" => "Credit", "amount" => $amount, "game_type" => "Recharge", "session_id" => $id];
+        DB::table('user_transactions')->insert($trans_credit_data);
+        $updateData = ['status'=>'Success'];
+        DB::table('recharges')->where('id', $id)->update($updateData);
+        return redirect('/rechargeReq');
+    }
+    public function cancelrechargeReq(Request $request){
+        $id = $request->get('id');
+         $updateData = ['status'=>'Failed'];
+        DB::table('recharges')->where('id', $id)->update($updateData);
+        return redirect('/rechargeReq');
+    }
 }

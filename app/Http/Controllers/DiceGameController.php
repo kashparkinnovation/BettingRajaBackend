@@ -23,10 +23,10 @@ class DiceGameController extends Controller
         $winmsg = "";
 
 
-        $first_num = mt_rand(1, 10);
-        $second_num = mt_rand(1, 10);
-        $third_num = mt_rand(1, 10);
-        $forth_num = mt_rand(1, 10);
+        $first_num = mt_rand(0, 9);
+        $second_num = mt_rand(0, 9);
+        $third_num = mt_rand(0, 9);
+        $forth_num = mt_rand(0, 9);
         array_push($result_num,$first_num);
         array_push($result_num,$second_num);
         array_push($result_num,$third_num);
