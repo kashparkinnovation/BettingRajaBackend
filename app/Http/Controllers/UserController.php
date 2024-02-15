@@ -174,6 +174,11 @@ class UserController extends Controller
         }
         return json_encode($result);
     }
+    public function getBankAccounts(Request $request){
+        $user_id = $request->get('user_id');
+       $banks =  DB::table('user_banks')->where('user_id', $user_id)->get();
+       return json_encode($banks);
+    }
     public function addBankAccount(Request $request)
     {
         $user_id = $request->get('user_id');

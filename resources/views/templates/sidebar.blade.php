@@ -15,9 +15,11 @@
                         class="material-icons">settings_input_svideo</i>Dashboard</a></li>
             <li class="no-padding"><a class="waves-effect waves-grey" href="{{ url('/getUser') }}"><i
                         class="material-icons">settings_input_svideo</i>Users</a></li>
-            <li class="no-padding"><a class="waves-effect waves-grey" href="{{ url('/getBanner') }}"><i
-                        class="material-icons">settings_input_svideo</i>Banners</a></li>
-            <li class="no-padding"><a class="waves-effect waves-grey" href="{{url('/slot_game')}}"><i
+                        <li class="no-padding"><a class="waves-effect waves-grey" href="{{ url('/rechargeReq') }}"><i
+                            class="material-icons">settings_input_svideo</i>Recharge Requests</a></li>
+                            <li class="no-padding"><a class="waves-effect waves-grey" href="{{ url('/withdrawReq') }}"><i
+                                class="material-icons">settings_input_svideo</i>Withdraw Requests</a></li>
+                        <li class="no-padding"><a class="waves-effect waves-grey" href="{{url('/slot_game')}}"><i
                         class="material-icons">settings_input_svideo</i>Slot Machine</a></li>
             <li class="no-padding"><a class="waves-effect waves-grey" href="{{url('/dice_game')}}"><i
                         class="material-icons">settings_input_svideo</i>Dice Game</a></li>
