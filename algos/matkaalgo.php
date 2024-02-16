@@ -88,25 +88,25 @@ function check_bets($session_id)
     mysqli_query($conn, "UPDATE `jhatka_session_data` SET `result`='$result_no',`amount`='$totalamount',`payout`='$payout' WHERE `id` = '$session_id'");
     $update_order_query = "";
     if ($result_no == 0 || $result_no == 5) {
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*4 WHERE `session_id` = '$session_id' AND `selected_no` = '13';";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*4 WHERE `session_id` = '$session_id' AND `selected_no` = 13;";
     } else {
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = '$session_id' AND ( `selected_no` = '11' OR `selected_no` = '12');";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = '$session_id' AND ( `selected_no` = 11 OR `selected_no` = 12);";
     }
     if ($result_no == 1 || $result_no == 3 || $result_no == 7 || $result_no == 9) {
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*2 WHERE `session_id` = '$session_id' AND `selected_no` = '12';";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*2 WHERE `session_id` = '$session_id' AND `selected_no` = 12;";
     } else {
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = '$session_id' AND ( `selected_no` = '11' OR `selected_no` = '13');";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = '$session_id' AND ( `selected_no` = 11 OR `selected_no` = 13);";
     }
     if ($result_no == 2 || $result_no == 4 || $result_no == 6 || $result_no == 8) {
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*2 WHERE `session_id` = '$session_id' AND `selected_no` = '11';";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*2 WHERE `session_id` = '$session_id' AND `selected_no` = 11;";
     } else {
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = '$session_id' AND ( `selected_no` = '12' OR `selected_no` = '13');";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = '$session_id' AND ( `selected_no` = 12 OR `selected_no` = 13);";
     }
     for ($i = 0; $i <= 9; $i++) {
         if ($i == $result_no) {
-            $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*5 WHERE `session_id` = '$session_id' AND `selected_no` = '$i';";
+            $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*5 WHERE `session_id` = '$session_id' AND `selected_no` = $i;";
         } else {
-            $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = '$session_id' AND `selected_no` <> '$result_no';";
+            $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = '$session_id' AND `selected_no` <> $result_no;";
         }
     }
     mysqli_multi_query($conn, $update_order_query);
