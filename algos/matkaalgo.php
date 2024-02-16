@@ -21,15 +21,6 @@ while (true) {
     sleep(100);
     $updateq = mysqli_query($conn, "UPDATE `jhatka_sessions_ids` SET `status`= 'LockIn' WHERE `id` = 1");
     sleep(10);
-    check_bets($session_id);
-    sleep(10);
-    $updateq = mysqli_query($conn, "UPDATE `jhatka_sessions_ids` SET `status`= 'Reloading' WHERE `id` = 1");
-    sleep(20);
-    $count++;
-}
-function check_bets($session_id)
-{
-    include 'connect.php';
     $amountquery = mysqli_query($conn, "SELECT SUM(`bid_amount`) as `bid_amount` ,`selected_no` FROM `jhatka_orders` WHERE `session_id` = '$session_id' GROUP BY `selected_no`");
     $bidarray = [];
     $result_no = 0;
@@ -114,4 +105,9 @@ function check_bets($session_id)
     mysqli_query($conn, $insert_query);
     $insert_query2 = "INSERT INTO `user_transactions`(`user_id`, `type`, `amount`, `game_type`, `session_id`) SELECT jhatka_orders.user_id , 'CREDIT' , jhatka_orders.bid_amount , 'JHATKA' ,jhatka_orders.session_id FROM jhatka_orders WHERE jhatka_orders.session_id = $session_id AND jhatka_orders.status='WIN';";
     mysqli_query($conn, $insert_query2);
+
+    sleep(10);
+    $updateq = mysqli_query($conn, "UPDATE `jhatka_sessions_ids` SET `status`= 'Reloading' WHERE `id` = 1");
+    sleep(20);
+    $count++;
 }
