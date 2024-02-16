@@ -84,7 +84,7 @@ class DiceGameController extends Controller
                 $game_data = ["user_id" => $user_id, "game_type" => "Dice Game", "game_session" => $session_id, "amount" => $amount, "status" => "Lose", "final_amount" => "0"];
                 DB::table('user_orders')->insert($game_data);
                 $trans_debit_data = ["user_id" => $user_id, "type" => "Debit", "amount" => $amount, "game_type" => "Dice Game", "session_id" => $session_id];
-    
+                DB::table('user_transactions')->insert($trans_debit_data);
             }
         }
    
