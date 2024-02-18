@@ -75,7 +75,7 @@ while (true) {
         $minDifference = PHP_INT_MAX;
         foreach ($nos as $no) {
             if ($checkamount[$no] <= $max_winnable_amount) {
-                $difference = abs($targetNumber - $value);
+                $difference = abs($max_winnable_amount - $checkamount[$no]);
                 if ($difference < $minDifference) {
                     $minDifference = $difference;
                     $result_no = $no;
@@ -84,7 +84,7 @@ while (true) {
                 }
             }
         }
-        if($is_result_found){
+        if(!$is_result_found){
             $payout = 0;
             $result_no = rand(0, 9);
         }

@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiceGameController;
 use App\Http\Controllers\JhatkaController;
+use App\Http\Controllers\RouletteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,4 +55,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::post('/update_jhatka_game',[JhatkaController::class , 'update_jhatka_game']);
+    Route::get('/rouletteGame', [RouletteController::class, 'rouletteGame']);
+
+
+    Route::post('/update_roulette_game',[RouletteController::class , 'update_roulette_game']);
 });

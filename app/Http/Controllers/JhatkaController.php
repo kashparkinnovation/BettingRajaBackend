@@ -25,13 +25,13 @@ class JhatkaController extends Controller
             $session_id = $session_data->current_session;
             date_default_timezone_set("Asia/Kolkata");
             $start_time = date("Y-m-d h:i:s");
-            $order = ["user_id" => $user_id, "bid_amount" => $amount, "selected_no" => $number, "session_id" => $session_id, ""];
+            $order = ["user_id" => $user_id, "bid_amount" => $amount, "selected_no" => $number, "session_id" => $session_id];
             DB::table('jhatka_orders')->insert($order);
             $tranx = ["user_id" => $user_id, "type" => "Debit",  "amount" => $amount, "game_type" => "JHATKA", "session_id" => $session_id];
             DB::table('user_transactions')->insert($tranx);
-            $result = ["status" => "Success", "status_code" => "200", "msg" => "Bid Placed Successfully!"];
+            $result = ["status" => "Success", "status_code" => "200", "msg" => "Bet Placed Successfully!"];
         } else {
-            $result = ["status" => "Failed", "status_code" => "300", "msg" => "Bid Placing Time Out. Play In New Session!"];
+            $result = ["status" => "Failed", "status_code" => "300", "msg" => "Bet Placing Time Out. Play In New Session!"];
         }
         return json_encode($result);
     }
@@ -59,7 +59,8 @@ class JhatkaController extends Controller
     }
 
     public function getJhatkaGamePastOrders(Request $request)
-    {$result = DB::table('jhatka_sessions_ids')->where('jhatka_sessions_ids.id', '=', '1')->get()[0];
+    {
+        $result = DB::table('jhatka_sessions_ids')->where('jhatka_sessions_ids.id', '=', '1')->get()[0];
         $last_id = $result->current_session;
         $user_id = $request->id;
         $result = DB::table('jhatka_orders')->where('jhatka_orders.user_id', '=', $user_id)->where('session_id', '!=', $last_id)->get();

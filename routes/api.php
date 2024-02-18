@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DiceGameController;
 use App\Http\Controllers\JhatkaController;
+use App\Http\Controllers\RouletteController;
 use App\Http\Controllers\SlotGameController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -35,7 +36,15 @@ Route::post('/addBankAccount',[UserController::class, 'addBankAccount']);
 Route::get('/getBankAccounts',[UserController::class, 'getBankAccounts']);
 Route::post('/playSlotGame',[SlotGameController::class, 'playSlotGame']);
 Route::post('/playDiceGame',[DiceGameController::class, 'playDiceGame']);
+
+Route::post('/playJhatkaGame',[JhatkaController::class, 'playJhatkaGame']);
 Route::get('/getJhatkaGame',[JhatkaController::class, 'getJhatkaGame']);
 Route::get('/getJhatkaGamePastOrders',[JhatkaController::class, 'getJhatkaGamePastOrders']);
 Route::get('/getJhatkaGamePastSessions',[JhatkaController::class, 'getJhatkaGamePastSessions']);
 
+Route::post('/playRouletteGame',[RouletteController::class, 'playRouletteGame']);
+Route::get('/getrouletteGame',[RouletteController::class, 'getrouletteGame']);
+Route::get('/getrouletteGamePastOrders',[RouletteController::class, 'getrouletteGamePastOrders']);
+Route::get('/getrouletteGamePastSessions',[RouletteController::class, 'getrouletteGamePastSessions']);
+
+Route::get('/getrouletteGameResult',[RouletteController::class, 'getrouletteGameResult']);

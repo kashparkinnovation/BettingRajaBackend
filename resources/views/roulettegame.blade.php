@@ -3,7 +3,7 @@
     <main class="mn-inner">
         <div class="row">
             <div class="col s10">
-                <div class="page-title">Jhatka Game</div>
+                <div class="page-title">Roulette Game</div>
             </div>
             <div class="col s2">
                 <button class="btn btn-primary" onclick="$('#manage_game').css('display', 'block');">Manage Game</button>
@@ -13,9 +13,9 @@
                     <div class="card-content">
 
                         <!-- Modal Structure -->
-                        <form action="{{ url('/update_jhatka_game') }}" method="post" class="form">
+                        <form action="{{ url('/update_roulette_game') }}" method="post" class="form">
 
-                            <h4>Jhatka Game</h4>
+                            <h4>Roulette Game</h4>
                             <div class="row">
 
                                 @csrf
