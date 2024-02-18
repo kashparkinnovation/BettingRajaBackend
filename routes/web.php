@@ -6,6 +6,7 @@ use App\Http\Controllers\SlotGameController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiceGameController;
+use App\Http\Controllers\JhatkaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,4 +50,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/UpdaterechargeReq', [UserController::class, 'UpdaterechargeReq']);
     
     
+    Route::get('/jhatkaGame', [JhatkaController::class, 'jhatkaGame']);
+
+
+    Route::post('/update_jhatka_game',[JhatkaController::class , 'update_jhatka_game']);
 });

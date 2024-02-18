@@ -23,7 +23,7 @@
                         class="material-icons">settings_input_svideo</i>Slot Machine</a></li>
             <li class="no-padding"><a class="waves-effect waves-grey" href="{{ url('/dice_game') }}"><i
                         class="material-icons">settings_input_svideo</i>Dice Game</a></li>
-            <li class="no-padding"><a class="waves-effect waves-grey" href=""><i
+            <li class="no-padding"><a class="waves-effect waves-grey" href="{{url('/jhatkaGame')}}"><i
                         class="material-icons">settings_input_svideo</i>Jhatka</a></li>
             <li class="no-padding"><a class="waves-effect waves-grey" href=""><i
                         class="material-icons">settings_input_svideo</i>Roulette Wheel</a></li>

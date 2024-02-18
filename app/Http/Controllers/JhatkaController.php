@@ -7,6 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class JhatkaController extends Controller
 {
+
+    public function jhatkaGame(){
+
+        $data = DB::table('jhatka_game_manage')->where('id', '=', 1)->get()[0];
+        $orders = DB::table('jhatka_orders')->join('users', 'users.id', '=', 'jhatka_orders.user_id')->join('jhatka_session_data', 'jhatka_session_data.id', '=', 'jhatka_orders.session_id')->select('jhatka_orders.*','jhatka_session_data.session_code', 'users.name', 'users.mobile')->orderBy('jhatka_orders.id', 'desc')->limit(1000)->get();
+        return view('jhatkagame', compact('data'), compact('orders'));
+
+    }
     public function playJhatkaGame(Request $request)
     {
         $user_id = $request->get('user_id');
@@ -24,6 +32,12 @@ class JhatkaController extends Controller
             $result = ["status" => "Failed", "status_code" => "300", "msg" => "Bid Placing Time Out. Play In New Session!"];
         }
         return json_encode($result);
+    }
+    public function update_jhatka_game(Request $request){
+        $win_percent = $request->get('win_percent');
+        $data = ['win_percent' => $win_percent];
+        DB::table('jhatka_game_manage')->where('id', 1)->update($data);
+        return redirect('/jhatkaGame');
     }
     public function getJhatkaGame()
     {
