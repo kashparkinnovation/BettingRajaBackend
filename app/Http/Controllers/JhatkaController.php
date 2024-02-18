@@ -23,7 +23,9 @@ class JhatkaController extends Controller
         $session_data = DB::table('jhatka_sessions_ids')->first();
         if ($session_data->status == "Playing") {
             $session_id = $session_data->current_session;
-            $order = ["user_id" => $user_id, "bid_amount" => $amount, "selected_no" => $number, "session_id" => $session_id];
+            date_default_timezone_set("Asia/Kolkata");
+            $start_time = date("Y-m-d h:i:s");
+            $order = ["user_id" => $user_id, "bid_amount" => $amount, "selected_no" => $number, "session_id" => $session_id, ""];
             DB::table('jhatka_orders')->insert($order);
             $tranx = ["user_id" => $user_id, "type" => "Debit",  "amount" => $amount, "game_type" => "JHATKA", "session_id" => $session_id];
             DB::table('user_transactions')->insert($tranx);

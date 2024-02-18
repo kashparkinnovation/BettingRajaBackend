@@ -97,25 +97,26 @@ while (true) {
     mysqli_query($conn, "UPDATE `jhatka_session_data` SET `result`='$result_no',`amount`='$totalamount',`payout`='$payout' WHERE `id` = '$session_id'");
     $update_order_query = "";
     if ($result_no == 0 || $result_no == 5) {
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*4 WHERE `session_id` = $session_id AND `selected_no` = 13;";
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = $session_id AND ( `selected_no` = 11 OR `selected_no` = 12);";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='Win',`final_amount`=`bid_amount`*4 WHERE `session_id` = $session_id AND `selected_no` = 13;";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='Lose',`final_amount`='0' WHERE `session_id` = $session_id AND ( `selected_no` = 11 OR `selected_no` = 12);";
     } else if ($result_no == 1 || $result_no == 3 || $result_no == 7 || $result_no == 9) {
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*2 WHERE `session_id` = $session_id AND `selected_no` = 12;";
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = $session_id AND ( `selected_no` = 11 OR `selected_no` = 13);";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='Win',`final_amount`=`bid_amount`*2 WHERE `session_id` = $session_id AND `selected_no` = 12;";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='Lose',`final_amount`='0' WHERE `session_id` = $session_id AND ( `selected_no` = 11 OR `selected_no` = 13);";
     } else if ($result_no == 2 || $result_no == 4 || $result_no == 6 || $result_no == 8) {
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*2 WHERE `session_id` = $session_id AND `selected_no` = 11;";
-        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = $session_id AND ( `selected_no` = 12 OR `selected_no` = 13);";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='Win',`final_amount`=`bid_amount`*2 WHERE `session_id` = $session_id AND `selected_no` = 11;";
+        $update_order_query .= "UPDATE `jhatka_orders` SET `status`='Lose',`final_amount`='0' WHERE `session_id` = $session_id AND ( `selected_no` = 12 OR `selected_no` = 13);";
     }
-    $update_order_query .= "UPDATE `jhatka_orders` SET `status`='WIN',`final_amount`=`bid_amount`*5 WHERE `session_id` = $session_id AND `selected_no` = $result_no;";
-    $update_order_query .= "UPDATE `jhatka_orders` SET `status`='LOSE',`final_amount`='0' WHERE `session_id` = $session_id AND `selected_no` <> $result_no AND `selected_no` <> 11 AND `selected_no` <> 12 AND `selected_no` <> 13 ;";
+    $update_order_query .= "UPDATE `jhatka_orders` SET `status`='Win',`final_amount`=`bid_amount`*5 WHERE `session_id` = $session_id AND `selected_no` = $result_no;";
+    $update_order_query .= "UPDATE `jhatka_orders` SET `status`='Lose',`final_amount`='0' WHERE `session_id` = $session_id AND `selected_no` <> $result_no AND `selected_no` <> 11 AND `selected_no` <> 12 AND `selected_no` <> 13 ;";
 
     mysqli_multi_query($conn, $update_order_query);
+    sleep(5);
     include 'connect.php';
     $insert_query = "INSERT INTO `user_orders`(`user_id`, `game_type`, `game_session`, `amount`, `status`, `final_amount`) SELECT jhatka_orders.user_id , 'JHATKA' , jhatka_orders.session_id, jhatka_orders.bid_amount , jhatka_orders.status , jhatka_orders.final_amount FROM jhatka_orders WHERE jhatka_orders.session_id = $session_id;";
     mysqli_query($conn, $insert_query);
-    $insert_query2 = "INSERT INTO `user_transactions`(`user_id`, `type`, `amount`, `game_type`, `session_id`) SELECT jhatka_orders.user_id , 'CREDIT' , jhatka_orders.final_amount , 'JHATKA' ,jhatka_orders.session_id FROM jhatka_orders WHERE jhatka_orders.session_id = $session_id AND jhatka_orders.status='WIN';";
+    $insert_query2 = "INSERT INTO `user_transactions`(`user_id`, `type`, `amount`, `game_type`, `session_id`) SELECT jhatka_orders.user_id , 'Credit' , jhatka_orders.final_amount , 'JHATKA' ,jhatka_orders.session_id FROM jhatka_orders WHERE jhatka_orders.session_id = $session_id AND jhatka_orders.status='Win';";
     mysqli_query($conn, $insert_query2);
-    sleep(10);
+    sleep(5);
     include 'connect.php';
     $updateq = mysqli_query($conn, "UPDATE `jhatka_sessions_ids` SET `status`= 'Reloading' WHERE `id` = 1");
     sleep(20);
