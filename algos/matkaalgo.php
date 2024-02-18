@@ -22,9 +22,14 @@ while (true) {
     sleep(10);
     include 'connect.php';
     $amountquery = mysqli_query($conn, "SELECT SUM(`bid_amount`) as `bid_amount` ,`selected_no` FROM `jhatka_orders` WHERE `session_id` = '$session_id' GROUP BY `selected_no`");
+    $game_settings  = mysqli_query($conn, "SELECT `win_percent` FROM `jhatka_game_manage` WHERE `id`=1");
+    $game_Sett = mysqli_fetch_assoc($game_settings);
+    $win_percent = $game_Sett['win_percent'];
+    $win_percentage = intval($win_percent) / 100;
     $bidarray = [];
     $result_no = 0;
     $payout = 0;
+    $is_result_found = false;
     $totalamount = 0;
     $checkamount = [];
     $nos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -36,7 +41,7 @@ while (true) {
             $totalamount += $test_amount;
             $bidarray[$test_no] = $test_amount;
         }
-        $max_winnable_amount = 0.8 * $totalamount;
+        $max_winnable_amount = $win_percentage * $totalamount;
         for ($i = 0; $i <= 9; $i++) {
             if ($i == 0 || $i == 5) {
                 $amount = 0;
@@ -67,13 +72,23 @@ while (true) {
                 $checkamount[$i] = $amount;
             }
         }
+        $minDifference = PHP_INT_MAX;
         foreach ($nos as $no) {
             if ($checkamount[$no] <= $max_winnable_amount) {
-                $result_no = $no;
-                $payout = $checkamount[$no];
-                break;
+                $difference = abs($targetNumber - $value);
+                if ($difference < $minDifference) {
+                    $minDifference = $difference;
+                    $result_no = $no;
+                    $payout = $checkamount[$no];
+                    $is_result_found = true;
+                }
             }
         }
+        if($is_result_found){
+            $payout = 0;
+            $result_no = rand(0, 9);
+        }
+              
     } else {
         $payout = 0;
         $result_no = rand(0, 9);
