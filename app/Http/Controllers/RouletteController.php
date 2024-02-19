@@ -51,7 +51,12 @@ class RouletteController extends Controller
     }
     public function getrouletteGameResult()
     {
-        $last_id = DB::table('roulette_sessions_ids')->join('roulette_session_data', 'roulette_session_data.id', '=', 'roulette_sessions_ids.current_session')->select('roulette_session_data.id', 'roulette_session_data.session_code', 'roulette_session_data.start_at', 'roulette_session_data.end_at', 'roulette_sessions_ids.status')->where('roulette_sessions_ids.id', '=', '1')->get()[0]->last_id;
+        $current_session = DB::table('roulette_sessions_ids')->where('roulette_sessions_ids.id', '=', '1')->get()[0];
+      if($current_session->status != 'Playing'){
+        $last_id = $current_session->current_session;
+      }else{
+        $last_id = $current_session->current_session - 1;
+      }
         $result = DB::table('roulette_session_data')->select('roulette_session_data.id', 'roulette_session_data.session_code', 'roulette_session_data.result')->where('roulette_session_data.id', '=', $last_id)->get()[0];
         return json_encode($result);
     }
