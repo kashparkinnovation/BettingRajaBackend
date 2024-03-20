@@ -21,8 +21,18 @@ class JhatkaController extends Controller
         $amount = $request->get('amount');
         $number = $request->get('num');
         $session_data = DB::table('jhatka_sessions_ids')->first();
-        if ($session_data->status == "Playing") {
+        if ($session_data->status == "Playing") {  
             $session_id = $session_data->current_session;
+
+            $c_bonus = DB::table('users')->where('id', $user_id)->get()[0]->bonus;
+            if($c_bonus >= $amount){
+                $bonus = $c_bonus - $amount;
+                $b_updateData = ['bonus' => $bonus];
+                DB::table('users')->where('id', $user_id)->update($b_updateData);
+                $trans_credit_data = ["user_id" => $user_id, "type" => "Credit", "amount" => $amount, "game_type" => "deposite", "session_id" => "Bonus Transaction"];
+                DB::table('user_transactions')->insert($trans_credit_data);
+            }
+
             date_default_timezone_set("Asia/Kolkata");
             $start_time = date("Y-m-d h:i:s");
             $order = ["user_id" => $user_id, "bid_amount" => $amount, "selected_no" => $number, "session_id" => $session_id];

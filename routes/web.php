@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiceGameController;
 use App\Http\Controllers\JhatkaController;
 use App\Http\Controllers\RouletteController;
+use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
    
     Route::get('/rechargeReq', [UserController::class, 'rechargeReq']);
     Route::get('/cancelrechargeReq', [UserController::class, 'cancelrechargeReq']);
+    Route::get('/fetch_rec_with_req_count', [UserController::class, 'fetch_rec_with_req_count']);
     
     Route::get('/UpdaterechargeReq', [UserController::class, 'UpdaterechargeReq']);
     
@@ -57,6 +59,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/update_jhatka_game',[JhatkaController::class , 'update_jhatka_game']);
     Route::get('/rouletteGame', [RouletteController::class, 'rouletteGame']);
 
-
+    
     Route::post('/update_roulette_game',[RouletteController::class , 'update_roulette_game']);
+    Route::get('/vendors', [VendorController::class, 'vendors']);
+    Route::post('/add_new_vendor',[VendorController::class , 'add_new_vendor']);
+    
 });

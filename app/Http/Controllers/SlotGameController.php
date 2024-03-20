@@ -34,6 +34,15 @@ class SlotGameController
         // Generate a random number to determine the outcome
         $randomNumber = mt_rand(1, 100) / 100;
 
+        $c_bonus = DB::table('users')->where('id', $user_id)->get()[0]->bonus;
+        if($c_bonus >= $amount){
+            $bonus = $c_bonus - $amount;
+            $b_updateData = ['bonus' => $bonus];
+            DB::table('users')->where('id', $user_id)->update($b_updateData);
+            $trans_credit_data = ["user_id" => $user_id, "type" => "Credit", "amount" => $amount, "game_type" => "deposite", "session_id" => "Bonus Transaction"];
+            DB::table('user_transactions')->insert($trans_credit_data);
+        }
+
         // Check the outcome based on probabilities
         if ($randomNumber <= $probabilities['one_wheel']) {
             $correct_num_pos = mt_rand(1, 3);
@@ -170,5 +179,11 @@ class SlotGameController
 
         // Check if it's a jackpot
         return $result >= 2; // Two or three wheels with 7 is a jackpot
+    }
+    public function getSlotGamePastSessions(Request $request)
+    {
+        $user_id = $request->get("user_id");
+        $result = DB::table('slot_game_orders')->where('user_id', '=', $user_id)->orderBy('id', 'Desc')->limit(20)->get();
+        return json_encode($result);
     }
 }

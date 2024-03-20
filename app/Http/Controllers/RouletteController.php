@@ -23,6 +23,14 @@ class RouletteController extends Controller
         $session_data = DB::table('roulette_sessions_ids')->first();
         if ($session_data->status == "Playing") {
             $session_id = $session_data->current_session;
+            $c_bonus = DB::table('users')->where('id', $user_id)->get()[0]->bonus;
+            if($c_bonus >= $amount){
+                $bonus = $c_bonus - $amount;
+                $b_updateData = ['bonus' => $bonus];
+                DB::table('users')->where('id', $user_id)->update($b_updateData);
+                $trans_credit_data = ["user_id" => $user_id, "type" => "Credit", "amount" => $amount, "game_type" => "deposite", "session_id" => "Bonus Transaction"];
+                DB::table('user_transactions')->insert($trans_credit_data);
+            }
             date_default_timezone_set("Asia/Kolkata");
             $start_time = date("Y-m-d h:i:s");
             $order = ["user_id" => $user_id, "bid_amount" => $amount, "selected_no" => $number, "session_id" => $session_id];
@@ -65,7 +73,6 @@ class RouletteController extends Controller
     {
         $result = DB::table('roulette_sessions_ids')->where('roulette_sessions_ids.id', '=', '1')->get()[0];
         $last_id = $result->current_session;
-
         $result = DB::table('roulette_session_data')->select('roulette_session_data.id', 'roulette_session_data.session_code', 'roulette_session_data.result')->where('id', '!=', $last_id)->orderBy('id', 'Desc')->limit(10)->get();
         return json_encode($result);
     }

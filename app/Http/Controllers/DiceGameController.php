@@ -22,6 +22,14 @@ class DiceGameController extends Controller
         $result_num = [];
         $winmsg = "";
 
+        $c_bonus = DB::table('users')->where('id', $user_id)->get()[0]->bonus;
+        if($c_bonus >= $amount){
+            $bonus = $c_bonus - $amount;
+            $b_updateData = ['bonus' => $bonus];
+            DB::table('users')->where('id', $user_id)->update($b_updateData);
+            $trans_credit_data = ["user_id" => $user_id, "type" => "Credit", "amount" => $amount, "game_type" => "deposite", "session_id" => "Bonus Transaction"];
+            DB::table('user_transactions')->insert($trans_credit_data);
+        }
 
         $first_num = mt_rand(0, 9);
         $second_num = mt_rand(0, 9);
@@ -92,5 +100,10 @@ class DiceGameController extends Controller
         return json_encode($result);
     }
    
- 
+    public function getDiceGamePastSessions(Request $request)
+    {
+        $user_id = $request->get("user_id");
+        $result = DB::table('dice_game_orders')->where('user_id', '=', $user_id)->orderBy('id', 'Desc')->limit(20)->get();
+        return json_encode($result);
+    }
 }

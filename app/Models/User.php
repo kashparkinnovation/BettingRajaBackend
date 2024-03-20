@@ -12,6 +12,9 @@ protected $table='users';
 protected $fillable=[
     'name',
     'mobile',
+    'refer_code',
+    'refered_by',
+    'bonus',
     'password',
     'status',
 ];
